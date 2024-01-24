@@ -15,10 +15,10 @@ class GitHubAPI {
       return null;
     }
   }
-  async fetchRepos() {
+  async fetchRepos(page = 1) {
     try {
       const response = await fetch(
-        `https://api.github.com/users/${this.username}/repos`
+        `https://api.github.com/users/${this.username}/repos?page=${page}&per_page=10`
       );
       const data = await response.json();
       return data;

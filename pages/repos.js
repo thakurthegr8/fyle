@@ -1,5 +1,6 @@
 const router = new Router();
 const root = document.querySelector("#root");
+const REPOS_PER_PAGE = 10;
 
 const getUser = async (github) => {
   const user = await github.fetchUser();
@@ -39,7 +40,8 @@ const assignReposInfoToDOM = (repos) => {
     reposInfoLayoutTemplate.content,
     true
   );
-  const reposInfoLayoutInner = reposInfoLayout.querySelector(".grid");
+  const reposInfoLayoutInner =
+    reposInfoLayout.querySelector(".repo_info_layout");
   const repoInfoTemplate = document.querySelector("#repo_info");
   repos.forEach((repo) => {
     const repoInfo = document.importNode(repoInfoTemplate.content, true);
@@ -53,6 +55,35 @@ const assignReposInfoToDOM = (repos) => {
   });
   root.appendChild(reposInfoLayoutInner);
 };
+const assignPaginationToDOM = (repoCount, username) => {
+  const totalPages =
+    repoCount / REPOS_PER_PAGE + (repoCount % REPOS_PER_PAGE === 0 ? 0 : 1);
+  const paginationLayoutTemplate = document.querySelector(
+    "#repo_pagination_layout"
+  );
+  const paginationLayoutImported = document.importNode(
+    paginationLayoutTemplate.content,
+    true
+  );
+  const paginationLayout = paginationLayoutImported.querySelector(
+    ".repo_pagination_layout"
+  );
+  for (let i = 1; i <= totalPages; i++) {
+    const paginationTabTemplate = document.querySelector(
+      "#repo_pagination_tab"
+    );
+    const paginationImported = document.importNode(
+      paginationTabTemplate.content,
+      true
+    );
+    const paginationLink = paginationImported.querySelector("a");
+    paginationLink.textContent = i;
+    paginationLink.href = `?username=${username}&page=${i}`;
+    paginationLayout.appendChild(paginationLink);
+  }
+  console.log(paginationLayout);
+  root.appendChild(paginationLayout);
+};
 
 const main = async () => {
   const params = router.params();
@@ -61,12 +92,13 @@ const main = async () => {
     router.route("/index");
     return;
   }
-  const { username } = params;
+  const { username, page } = params;
   const github = new GitHubAPI(username);
   const user = await getUser(github);
   assignUserInfoToDOM(user);
-  const repos = await github.fetchRepos(github);
+  const repos = await github.fetchRepos(!page ? 1 : page);
   assignReposInfoToDOM(repos);
+  assignPaginationToDOM(user.public_repos, user.login);
 };
 
 main();

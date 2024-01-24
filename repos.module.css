@@ -1,0 +1,28 @@
+.repo_card{
+    border: 1px solid #e1e4e8;
+    border-radius:calc(var(--md-d) * 1rem);
+    gap: calc(var(--md-d) * 1rem);
+    padding: 1rem;
+}
+.repo_info_layout{
+    grid-gap: calc(var(--md-d) * 1rem);
+    padding: calc(var(--md-d) * 1rem) 0;
+}
+.repo_info_lang{
+    font-weight:bold;
+}
+.user_info{
+    gap:0.5rem;
+    padding: calc(var(--md-d) * 1rem) 0;
+}
+.avatar{
+    border-radius: calc(var(--md-d) * 1rem);
+}
+.repo_pagination_layout{
+    gap: calc(var(--md-d) * 1rem);
+    padding: calc(var(--md-d) * 1rem) 0;
+}
+.repo_pagination_tab{
+    border: 1px solid #e1e4e8;
+    padding: calc(var(--md-d) * 1rem);
+}
