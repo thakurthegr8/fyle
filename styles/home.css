@@ -4,8 +4,7 @@
     /* margin: 0 calc(var(--md-d) * 1rem); */
   }
   .homepage_main form{
-    grid-gap: calc(var(--md-d) * 1rem);
-    width: 30rem;
+    gap: calc(var(--md-d) * 1rem);
   }
   .homepage_main button{
     width: 100%;
